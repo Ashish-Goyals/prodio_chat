@@ -4,9 +4,9 @@ import {Server} from 'socket.io';
 import onCall from './socket-events/onCall.js';
 import onWebrtcSignal from './socket-events/onWebrtcSignal.js';
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
-const port = 3000;
-const app = next ({dev, hostname, port});
+const hostname = "localhost"; 
+const PORT = process.env.PORT || 3000;
+const app = next ({dev, hostname, PORT});
 const handler = app.getRequestHandler ();
 
 export let io;
@@ -58,12 +58,12 @@ app.prepare ().then (() => {
     });
   });
 
-  httpServer
-    .once ('error', err => {
-      console.error (err);
-      process.exit (1);
+ httpServer
+    .once("error", (err) => {
+      console.error(err);
+      process.exit(1);
     })
-    .listen (port, () => {
-      console.log (`LocalHost :- http://${hostname}:${port}`);
+    .listen(PORT, hostname, () => {
+      console.log(`Server running on http://${hostname}:${PORT}`);
     });
 });
