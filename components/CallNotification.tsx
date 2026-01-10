@@ -27,13 +27,13 @@ const CallNotification = () => {
         <div className="flex items-center justify-center gap-4 mt-4">
           <button
             className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md"
-            onClick={handleHangup}
+            onClick={() => handleHangup?.()}
           >
             <PhoneOff size={20} />
           </button>
           <button
             className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
-            onClick={() => handleJoinCall(ongoingCall)}
+            onClick={() => handleJoinCall?.(ongoingCall)}
           >
             <Phone size={20} />
           </button>
