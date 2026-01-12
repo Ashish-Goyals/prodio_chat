@@ -4,9 +4,9 @@ const createOnCall = (io, activeCalls) => async participants => {
     const {caller, receiver} = participants;
 
     const callerBusy = activeCalls.some (
-      c =>
-        c.participants.caller.userId === caller.userId ||
-        c.participants.receiver.userId === caller.userId
+      calls =>
+        calls.participants.caller.userId === caller.userId ||
+        calls.participants.receiver.userId === caller.userId
     );
     if (callerBusy) {
       io.to (caller.socketId).emit ('alreadyInCall');
@@ -14,7 +14,7 @@ const createOnCall = (io, activeCalls) => async participants => {
     }
 
     const receiverBusy = activeCalls.some (
-      c =>
+      calls =>
         calls.participants.caller.userId === receiver.userId ||
         calls.participants.receiver.userId === receiver.userId
     );

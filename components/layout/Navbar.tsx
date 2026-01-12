@@ -25,7 +25,7 @@ const Navbar = () => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="ml-1 hidden sm:inline-flex"
+                  className="ml-1 inline-flex"
                   onClick={() => router.push("/sign-in")}
                 >
                   Sign In
@@ -33,7 +33,7 @@ const Navbar = () => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="ml-1 hidden sm:inline-flex"
+                  className="ml-1 inline-flex"
                   onClick={() => router.push("/sign-up")}
                 >
                   Sign Up
