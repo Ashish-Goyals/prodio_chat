@@ -20,10 +20,10 @@ const VideoContainer = ({
   return (
     <video
       className={cn(
-        "rounded border w-[800px]",
+        "rounded border w-full max-w-[1200px] h-auto object-cover",
         isLocalStream &&
           isOnCall &&
-          "w-[200px] h-auto absolute border-purple-500 border-2"
+          "w-36 sm:w-44 md:w-52 h-auto absolute bottom-4 right-4 border-purple-500 border-2 rounded-md"
       )}
       autoPlay
       playsInline

@@ -14,9 +14,9 @@ function ListOnlineUsers() {
 
   if (filteredUsers?.length === 0) {
     return (
-      <div className="flex flex-row gap-3 items-center py-3">
+      <div className="flex items-center gap-3 py-3">
         <Avatar src="" />
-        <p>No users online</p>
+        <p className="text-sm">No users online</p>
       </div>
     );
   }
@@ -26,11 +26,13 @@ function ListOnlineUsers() {
       {filteredUsers?.map((onlineUser) => (
         <div
           key={onlineUser.userId}
-          className="flex flex-row gap-3 items-center py-3 cursor-pointer hover:bg-muted"
+          className="flex items-center gap-3 py-3 cursor-pointer hover:bg-muted"
           onClick={() => handleCall?.(onlineUser)}
         >
           <Avatar src={onlineUser.profile?.imageUrl || ""} />
-          <p>{onlineUser.profile?.firstName?.split(" ")[0]}</p>
+          <p className="text-sm truncate max-w-[110px]">
+            {onlineUser.profile?.firstName?.split(" ")[0]}
+          </p>
         </div>
       ))}
     </div>

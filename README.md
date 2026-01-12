@@ -3,6 +3,13 @@ Basic Steps to run this code:-
 i:- setup its clerk secret key in .env.local (use .env.local.sample) as reference
 ii:- Run  (npm run nodemon)
 
+TechStack Used :-
+Next js (Ui)
+Socket.io and socket.io-client 
+Tailwind CSS
+WEBRTC (For P2P connection)
+Clerk (For Authentication)
+Shadcn ui
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).

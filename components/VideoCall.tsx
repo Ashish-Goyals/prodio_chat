@@ -60,7 +60,7 @@ const VideoCall = () => {
             />
           )}
         </div>
-        <div className="mt-8 flex items-center">
+        <div className="mt-8 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
           <button onClick={toggleMic}>
             {isMicOn && <MdMic size={28} />}
             {!isMicOn && <MdMicOff size={28} />}
