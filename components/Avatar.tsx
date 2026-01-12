@@ -15,7 +15,7 @@ const Avatar = ({ src }: { src: string }) => {
     );
   }
   return (
-    <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
+    <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-slate-100 overflow-hidden">
       <FaUserCircle size={20} />
     </div>
   );

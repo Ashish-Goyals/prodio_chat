@@ -40,11 +40,29 @@ const VideoCall = () => {
   const isOnCall = localStream && peer && ongoingCall ? true : false;
 
   if (!localStream) {
-    return <div></div>;
+    return <div />;
   } else {
     return (
       <div>
-        <div className="relative mt-4">
+        <div
+          className="
+    relative
+    w-full
+    h-[65vh] sm:h-[70vh] md:h-[75vh] lg:h-[80vh]
+    bg-black
+    rounded-xl
+    overflow-hidden
+    flex items-center justify-center
+  "
+        >
+          {peer?.stream && (
+            <VideoContainer
+              stream={peer.stream}
+              isLocalStream={false}
+              isOnCall={isOnCall}
+            />
+          )}
+
           {localStream && (
             <VideoContainer
               stream={localStream}
@@ -52,15 +70,9 @@ const VideoCall = () => {
               isOnCall={isOnCall}
             />
           )}
-          {peer && peer.stream && (
-            <VideoContainer
-              stream={peer.stream}
-              isLocalStream={false}
-              isOnCall={isOnCall}
-            />
-          )}
         </div>
-        <div className="mt-8 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
+
+        <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
           <button onClick={toggleMic}>
             {isMicOn && <MdMic size={28} />}
             {!isMicOn && <MdMicOff size={28} />}

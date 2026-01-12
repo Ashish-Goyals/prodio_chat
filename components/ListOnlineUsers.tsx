@@ -26,11 +26,11 @@ function ListOnlineUsers() {
       {filteredUsers?.map((onlineUser) => (
         <div
           key={onlineUser.userId}
-          className="flex items-center gap-3 py-3 cursor-pointer hover:bg-muted"
+          className="flex items-center gap-3 py-3 cursor-pointer hover:bg-muted rounded-md px-1 sm:px-2"
           onClick={() => handleCall?.(onlineUser)}
         >
           <Avatar src={onlineUser.profile?.imageUrl || ""} />
-          <p className="text-sm truncate max-w-[110px]">
+          <p className="text-sm truncate max-w-[90px] sm:max-w-[150px] md:max-w-none">
             {onlineUser.profile?.firstName?.split(" ")[0]}
           </p>
         </div>

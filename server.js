@@ -1,8 +1,8 @@
 import {createServer} from 'node:http';
 import next from 'next';
 import {Server} from 'socket.io';
-import onCall from './socket-events/onCall.js';
 import onWebrtcSignal from './socket-events/onWebrtcSignal.js';
+import createOnCall from './socket-events/onCall.js';
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = "0.0.0.0"; 
 const PORT = process.env.PORT || 3000;
@@ -17,6 +17,18 @@ app.prepare ().then (() => {
   io = new Server (httpServer);
 
   let onlineUsers = [];
+  let activeCalls = [];
+
+   function removeActiveCallsFor(userIds) {
+    for (let i = activeCalls.length - 1; i >= 0; i--) {
+      const calling = activeCalls[i];
+      if (!calling || !calling.participants) continue;
+      const { caller, receiver } = calling.participants;
+      if (userIds.includes(caller?.userId) || userIds.includes(receiver?.userId)) {
+        activeCalls.splice(i, 1);
+      }
+    }
+  }
 
   io.on ('connection', socket => {
     console.log ('client connected .....');
@@ -33,19 +45,26 @@ app.prepare ().then (() => {
     });
     socket.on ('disconnect', () => {
       console.log ('client disconnected .....');
+      const disconnectedUser = onlineUsers.find(user => user.socketId === socket.id);
       onlineUsers = onlineUsers.filter (user => user.socketId !== socket.id);
+
+      if (disconnectedUser?.userId) {
+        removeActiveCallsFor([disconnectedUser.userId]);
+      }
 
       io.emit ('getUsers', onlineUsers);
       console.log ('onlineUsers (removed):', onlineUsers.length);
     });
 
-    socket.on ('call', onCall);
+    socket.on('call', createOnCall(io, activeCalls));
     socket.on('webrtcSignal',onWebrtcSignal);
     socket.on('hangup', data => {
       try {
         const ongoingCall = data?.ongoingCall;
         if (!ongoingCall || !ongoingCall.participants) return;
         const { caller, receiver } = ongoingCall.participants;
+
+         removeActiveCallsFor([caller.userId, receiver.userId]);
 
         const senderSocketId = socket.id;
         const other = caller?.socketId === senderSocketId ? receiver : caller;

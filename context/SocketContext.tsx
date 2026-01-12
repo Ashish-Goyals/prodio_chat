@@ -122,7 +122,7 @@ export const SocketContextProvider = ({
       });
 
       newPeer.on("close", () => {
-        console.log("Peer connection clos");
+        console.log("Peer connection closed");
         removeStream();
       });
 
@@ -148,6 +148,17 @@ export const SocketContextProvider = ({
   const handleCall = useCallback(
     async (user: SocketUser) => {
       if (!currentSocketUser || !socket) return;
+
+      if (ongoingCall) {
+        alert("You are already in a call");
+        return;
+      }
+
+      // prevent calling yourself
+      // if (user.userId === currentSocketUser.userId) {
+      //   alert("You cannot call yourself");
+      //   return;
+      // }
 
       const stream = await getMediaStream();
       if (!stream) {
@@ -185,7 +196,7 @@ export const SocketContextProvider = ({
 
       socket.emit("call", participants);
     },
-    [socket, currentSocketUser, getMediaStream, createPeer]
+    [socket, currentSocketUser, getMediaStream, createPeer, ongoingCall]
   );
 
   const onIncomingCall = useCallback((participants: Participants) => {
@@ -331,10 +342,26 @@ export const SocketContextProvider = ({
     socket.on("webrtcSignal", completePeerConnection);
     socket.on("hangup", removeStream);
 
+    // Server notifications when a user is busy or caller is already in call
+    const handleUserBusy = (data: { userId: string; profile?: any }) => {
+      const name =
+        data?.profile?.firstName || data?.profile?.username || "User";
+      alert(`${name} is already in a call`);
+    };
+
+    const handleAlreadyInCall = () => {
+      alert("You are already in a call");
+    };
+
+    socket.on("userBusy", handleUserBusy);
+    socket.on("alreadyInCall", handleAlreadyInCall);
+
     return () => {
       socket.off("incomingCall", onIncomingCall);
       socket.off("webrtcSignal", completePeerConnection);
       socket.off("hangup", removeStream);
+      socket.off("userBusy", handleUserBusy);
+      socket.off("alreadyInCall", handleAlreadyInCall);
     };
   }, [
     socket,

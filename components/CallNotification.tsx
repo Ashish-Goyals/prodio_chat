@@ -9,10 +9,10 @@ const CallNotification = () => {
   if (!ongoingCall?.isRinging) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-sm p-6 animate-in fade-in zoom-in">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-[95%] max-w-md p-4 sm:p-6 animate-in fade-in zoom-in">
         <div className="flex items-center justify-center mb-4">
-          <div className="h-16 w-16 rounded-full bg-slate-200 flex items-center justify-center">
+          <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-slate-200 flex items-center justify-center overflow-hidden">
             <Avatar
               src={ongoingCall?.participants?.caller?.profile?.imageUrl || ""}
             />
